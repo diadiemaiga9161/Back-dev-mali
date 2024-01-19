@@ -11,8 +11,8 @@
 	<groupId>com.G-flotte</groupId>
 	<artifactId>G-flotte</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>G-flotte</name>
-	<description>Une application de gestion de flotte</description>
+	<name>DevMaliConnect</name>
+	<description>Une application de prise de rendez vous</description>
 	<properties>
 		<java.version>1.9</java.version>
 	</properties>

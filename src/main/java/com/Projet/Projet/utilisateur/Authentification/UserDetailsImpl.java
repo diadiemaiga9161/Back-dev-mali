@@ -64,8 +64,9 @@ public class UserDetailsImpl implements UserDetails {
         this.genre = genre;
         this.profilcompleter = profilcompleter;
         this.etat = etat;
-        this.authorities = authorities;
         this.statut = statut;
+        this.authorities = authorities;
+
     }
 
 
@@ -86,8 +87,8 @@ public class UserDetailsImpl implements UserDetails {
                 user.getAdresse(),
                 user.getGenre(),
                 user.getProfilcompleter(),
-                user.getStatut(),
                 user.getEtat(),
+                user.getStatut(),
                 authorities
                 );
     }
@@ -125,10 +126,15 @@ public class UserDetailsImpl implements UserDetails {
     public String getPrenom() {
         return prenom;
     }
-    @JsonIgnore
+//    @JsonIgnore
+
 
     public Boolean getEtat() {
         return etat;
+    }
+
+    public void setEtat(Boolean etat) {
+        this.etat = etat;
     }
 
     public String getAdresse() {
