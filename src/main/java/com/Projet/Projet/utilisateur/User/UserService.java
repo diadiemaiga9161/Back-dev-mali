@@ -83,6 +83,7 @@ public class UserService implements ServiceUtilisateur {
             }
 
             ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+            String jwt = jwtUtils.generateJwtToken(userDetails);
 
             List<String> roles = userDetails.getAuthorities().stream()
                     .map(item -> item.getAuthority())
@@ -100,7 +101,7 @@ public class UserService implements ServiceUtilisateur {
                     userDetails.getAdresse(),
                     userDetails.getDate(),
                     roles,
-                    specialites
+                    jwt
             );
             List<UserRolePermission> permissions =  userPermissionRepository.findByUserId(userDetails.getId());
 

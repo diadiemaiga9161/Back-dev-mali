@@ -69,7 +69,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers(new AntPathRequestMatcher("/api/auth/**")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/api/gflotte/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/Images/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/api/gflotte/test/admin")).hasRole("RESPONSABLE_MAINTENANCE")
                                 .anyRequest().authenticated()
                 );
