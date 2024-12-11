@@ -30,11 +30,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -89,7 +86,7 @@ public class UserService implements ServiceUtilisateur {
                     .map(item -> item.getAuthority())
                     .collect(Collectors.toList());
 
-            List<String> specialites = userDetails.getSpecialites();
+//            List<String> specialites = userDetails.getSpecialites();
 
             UserInfoResponse userInfoResponse = new UserInfoResponse(
                     userDetails.getId(),
@@ -98,6 +95,7 @@ public class UserService implements ServiceUtilisateur {
                     userDetails.getNom(),
                     userDetails.getPrenom(),
                     userDetails.getGenre(),
+                    userDetails.getSpecialite(),
                     userDetails.getAdresse(),
                     userDetails.getDate(),
                     roles,
@@ -158,13 +156,14 @@ public class UserService implements ServiceUtilisateur {
            // En cas d'erreur lors de l'envoi de l'e-mail, retournez un message d'erreur
            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Erreur lors de l'envoi de l'e-mail de confirmation.", false));
        }
-       // Create new user's account
+       // Create un nouveau compte user
        User user = new User(
                signUpRequest.getNom(),
                signUpRequest.getPrenom(),
                encoder.encode(signUpRequest.getPassword()),
                signUpRequest.getTelephone(),
                signUpRequest.getAdresse(),
+               signUpRequest.getSpecialite(),
                signUpRequest.getGenre(),
                signUpRequest.getEmail()
        );
@@ -219,8 +218,13 @@ public class UserService implements ServiceUtilisateur {
 
        userRepository.save(user);
 
-       return ResponseEntity.ok(new MessageResponse("Utilisateur enregistré avec succès! Veuillez vérifier votre e-mail pour activer votre compte." + jwt, true));
+       return ResponseEntity.ok(new MessageResponse("Utilisateur enregistré avec succès! Veuillez vérifier votre e-mail pour activer votre compte.", true));
    }
+
+    @Override
+    public List<User> getUsersByRole(ERole roleName) {
+        return userRepository.findByRoles_Name(roleName);
+    }
 
     @Override
     public ResponseEntity<String> activateAccount(String token) {
@@ -270,7 +274,7 @@ public class UserService implements ServiceUtilisateur {
                 userRepository.save(user);
 
                 // Créez le lien de réinitialisation
-                String resetLink = "http://votre-site.com/reset-password?token=" + resetToken;
+                String resetLink = "http://localhost:4200/reset-password?token=" + resetToken;
 
                 // Envoyez un e-mail avec le lien de réinitialisation
                 emailService.sendResetPasswordEmail(email, resetLink);
@@ -349,53 +353,50 @@ public class UserService implements ServiceUtilisateur {
         return ResponseEntity.badRequest().body(new MessageResponse("Le mot de passe n'a pas pu être modifié.", false));
     }
     @Override
-    public ResponseEntity<?> updateUserProfile(@Valid @ModelAttribute User updateRequest, @RequestParam("photo") MultipartFile photo) {
+    public Object updateUserProfile(User updateRequest) {
         // Obtenir l'utilisateur connecté à partir de l'objet Authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
+        System.out.println(currentUsername);
 
         // Obtenir l'utilisateur à partir de la base de données en fonction de l'username
         Optional<User> userOptional = userRepository.findByEmail(currentUsername);
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            UtilisateurPhoto utilisateurPhoto = user.getUtilisateurPhoto();
 
             // Mettez à jour les informations de l'utilisateur avec les nouvelles données
             user.setNom(updateRequest.getNom());
             user.setPrenom(updateRequest.getPrenom());
             user.setTelephone(updateRequest.getTelephone());
+            user.setEmail(updateRequest.getEmail());
             user.setAdresse(updateRequest.getAdresse());
             user.setGenre(updateRequest.getGenre());
 
             // Mettez à jour d'autres champs en fonction de votre modèle de données
-
-            // Gérez la mise à jour de la photo
-            if (!photo.isEmpty()) {
-                String photo2 = user.getNom()+ photo.getOriginalFilename();
-
-                if (utilisateurPhoto == null) {
-                    utilisateurPhoto = new UtilisateurPhoto(photo2);
-                } else {
-                    // Si l'utilisateur a déjà une photo, mettez à jour le nom de la photo
-                    utilisateurPhoto.setNom(Image.save(photo,photo2,"imageUser"));
-                }
-
-                // Assurez-vous que la relation est correctement établie
-                utilisateurPhoto.setUser(user);
-
-                // Enregistrez la nouvelle photo
-                utilisateurPhotoRepository.save(utilisateurPhoto);
-            }
-
+            user.setProfilcompleter(true);
             // Sauvegardez les modifications dans la base de données
             userRepository.save(user);
 
-            return ResponseEntity.ok(new MessageResponse("Informations de l'utilisateur mises à jour avec succès.", true));
+            return userRepository.save(user);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Utilisateur non trouvé", false));
         }
     }
+
+    @Override
+    public MessageResponse Bannir(User user) {
+        return userRepository.findById(user.getId())
+                .map(p -> {
+                    p.setStatut(!p.getStatut()); // Inversion du statut actuel
+                    User updatedUser = userRepository.save(p);
+                    String message = "L'utilisateur a été bani avec succès";
+                    boolean status = p.getStatut(); // Utilisation du nouveau statut
+                    MessageResponse response = new MessageResponse(message, true);
+                    return response;
+                }).orElseThrow(() -> new RuntimeException("Utilisateur non trouvé !"));
+    }
+
     @Override
     public List<Map<String, Object>> listeUtilisateur() {
         List<User> users = userRepository.findAll(); // Récupérer tous les utilisateurs
@@ -419,8 +420,88 @@ public class UserService implements ServiceUtilisateur {
     }
 
     @Override
+    public ResponseEntity<?> updateUserPhoto(User updateRequest, MultipartFile photo) {
+        // Obtenir l'utilisateur connecté à partir de l'objet Authentication
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        // Obtenir l'utilisateur à partir de la base de données en fonction de l'username
+        Optional<User> userOptional = userRepository.findByEmail(currentUsername);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            UtilisateurPhoto utilisateurPhoto = user.getUtilisateurPhoto();
+
+            // Mettez à jour d'autres champs en fonction de votre modèle de données
+
+            // Gérez la mise à jour de la photo
+            if (!photo.isEmpty()) {
+                String originalFileName = photo.getOriginalFilename();
+
+                int lastDotIndex = originalFileName.lastIndexOf(".");
+                if (lastDotIndex >= 0) {
+                    String fileExtension = originalFileName.substring(lastDotIndex);
+
+                    String newPhotoFileName = "user_" + user.getId() + "_" + System.currentTimeMillis() + fileExtension;
+                    if (utilisateurPhoto == null) {
+                        utilisateurPhoto = new UtilisateurPhoto(newPhotoFileName);
+                    } else {
+
+                        // Mettez à jour le nom de la photo avec le nouveau nom
+                        utilisateurPhoto.setNom(Image.save(photo, newPhotoFileName, "Images/ImageUser"));
+                    }
+
+                    // Assurez-vous que la relation est correctement établie
+                    utilisateurPhoto.setUser(user);
+
+                    // Enregistrez la nouvelle photo
+                    utilisateurPhotoRepository.save(utilisateurPhoto);
+                    System.out.println("/Images/ImageUser/" + newPhotoFileName);
+                    return ResponseEntity.ok(new MessageResponse("/Images/ImageUser/" + newPhotoFileName, true));
+                }
+            }
+
+            // Sauvegardez les modifications dans la base de données
+            userRepository.save(user);
+
+            return ResponseEntity.ok(new MessageResponse("Aucune modification de la photo", true));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Utilisateur non trouvé", false));
+        }
+    }
+
+
+    @Override
+    public User saveUser(User user) {
+        return null;
+    }
+
+    @Override
     public Role saveRole(Role role) {
         return roleRepository.save(role);
+    }
+
+    @Override
+    public User UserparId(Long id_user) {
+        return userRepository.findById(id_user).get();
+    }
+
+    @Override
+    public void addRoleToUser(String numero, ERole roleName) {
+    }
+
+    @Override
+    public Object AfficherInfoUserConnecter() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        System.out.println(currentUsername);
+        // Obtenir l'utilisateur à partir de la base de données en fonction de l'username
+        Optional<User> userOptional = userRepository.findByEmail(currentUsername);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return user;
+        }
+        return null;
     }
 
 }

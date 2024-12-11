@@ -1,8 +1,16 @@
 package com.Projet.Projet.utilisateur.User;
 
 
+import com.Projet.Projet.Connaissances.Connaissances;
+import com.Projet.Projet.ExperienceProfessionnelle.ExperienceProfessionnelle;
+import com.Projet.Projet.ProjetInformatique.ProjetInformatique;
+import com.Projet.Projet.ProjetInformatique.TypeProjet.TypeProjet;
+import com.Projet.Projet.RendezVous.TypeRdv.TypeRdv;
 import com.Projet.Projet.utilisateur.Role.Role;
+import com.Projet.Projet.utilisateur.Specialite.Specialite;
 import com.Projet.Projet.utilisateur.UtilisateurPhoto.UtilisateurPhoto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -45,6 +53,10 @@ public class User {
     private Boolean statut=true ;
     private Boolean profilcompleter ;
 
+    @ManyToOne
+    @JoinColumn(name = "id_specialite")
+    private Specialite specialite;
+
     @Column
     private String resetToken;
     @OneToOne(mappedBy = "user")
@@ -57,6 +69,19 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+
+//    @JsonBackReference
+    @OneToMany(mappedBy = "user")
+    private Set<ProjetInformatique> projetInformatiques;
+
+    @OneToMany(mappedBy = "user")
+    private Set<ExperienceProfessionnelle> experienceProfessionnelles;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(  name = "user_connaissance",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "connaissance_id"))
+    private Set<Connaissances> connaissances= new HashSet<>();
 
 
 
@@ -82,12 +107,13 @@ public class User {
         this.utilisateurPhoto = utilisateurPhoto;
     }
 
-    public User(String nom, String prenom, String password, String telephone, String adresse, String genre, String email) {
+    public User(String nom, String prenom, String password, String telephone, String adresse, Specialite specialite, String genre, String email) {
         this.nom=nom;
         this.prenom=prenom;
         this.password=password;
         this.telephone=telephone;
         this.adresse=adresse;
+        this.specialite = specialite;
         this.genre = genre;
         this.email=email;
     }

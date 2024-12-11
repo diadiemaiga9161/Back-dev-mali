@@ -1,9 +1,7 @@
 package com.Projet.Projet.ProjetInformatique.TypeProjet;
 
 import com.Projet.Projet.Message.MessageResponse;
-
 import java.util.List;
-
 public interface TypeProjetService {
     
     MessageResponse Supprimer(Long id_typeProjet);  // LA METHODE PERMETTANT DE SUPPRIMER UN TYPE

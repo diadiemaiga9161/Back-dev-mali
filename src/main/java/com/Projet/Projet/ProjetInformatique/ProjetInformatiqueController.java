@@ -10,8 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8100"}, maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:49775"}, maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("api/projetInformatique")
 public class ProjetInformatiqueController {
@@ -20,24 +21,29 @@ public class ProjetInformatiqueController {
     private ProjetInformatiqueService projetInformatiqueService;
 
     //AJOUTER UN PROJET
-//    @PreAuthorize("hasRole('ADMIN')")
+   //@PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/ajouter")
     public Object Ajouter(@RequestParam("titre") String titre, @RequestParam("description") String description,
                           @RequestParam("typeProjet") TypeProjet typeProjet, @RequestParam("photo") MultipartFile photo) throws IOException {
-
         return projetInformatiqueService.Ajouter(titre, description,typeProjet,photo);
     }
 
     //AFFICHER LES PROJETS
-//    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")qui veut dire seule l'admin peut joue sur cette fonction
     @GetMapping("/afficher")
     public List<ProjetInformatique> Afficher(){
         return projetInformatiqueService.Afficher();
     }
+    //AFFICHER LES PROJETS par user connecter
+
+    @GetMapping("/voir")
+    public  List<Map<String, Object>> voir(){
+        return projetInformatiqueService.getProjetInformatiquelByUser();
+    }
 
 
     //MODIFIER UN PROJET
-//    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")qui veut dire seule l'admin peut joue sur cette fonction
     @PutMapping("modifier/{id}")
     public ResponseEntity<MessageResponse> modifierProjet(
             @PathVariable Long id,
@@ -50,14 +56,14 @@ public class ProjetInformatiqueController {
     }
 
     //SUPPRIMER UN PROJET
-//    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")qui veut dire seule l'admin peut joue sur cette fonction
     @DeleteMapping("/supprimer/{id_projet}")
     public MessageResponse Supprimer(@PathVariable("id_projet") Long id_projet){
         return projetInformatiqueService.Supprimer(id_projet);
     }
 
     // LA METHODE PERMETTANT D'AFFICHER UN PROJET EN FONCTION DE SON ID
-    @GetMapping("/astuceparid/{id_projet}")
+    @GetMapping("/projetparid/{id_projet}")
     public ProjetInformatique AfficherAstuceParId(@PathVariable Long id_projet){
         return projetInformatiqueService.ProjetInformatiqueparId(id_projet);
     }

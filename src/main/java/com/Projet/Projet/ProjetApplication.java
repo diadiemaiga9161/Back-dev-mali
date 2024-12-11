@@ -34,7 +34,7 @@ public class ProjetApplication {
 				Role r3 = userService.saveRole(new Role(null, ROLE_CLIENT));
 				Role r4 = userService.saveRole(new Role(null, ROLE_INFORMATICIEN));
 				Role r6 = userService.saveRole(new Role(null, ROLE_USER));
-//				User u1= userService.saveUser( new User("DIARRA", "Tiecoura", "12345678", "70804808", "Sogoniko","Masculin", "tiec@gmail.com"));
+//				User u1= userService.saveUser( new User("MAIGA", "Amadou", "12345678", "91613489", "Diatoula","Homme", "doumaiga3@gmail.com"));
 //				userService.addRoleToUser(u1.getTelephone(), r1.getName());
 			}
 		};

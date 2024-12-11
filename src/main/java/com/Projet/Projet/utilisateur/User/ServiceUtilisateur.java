@@ -1,5 +1,7 @@
 package com.Projet.Projet.utilisateur.User;
 
+import com.Projet.Projet.Message.MessageResponse;
+import com.Projet.Projet.utilisateur.Role.ERole;
 import com.Projet.Projet.utilisateur.Role.Role;
 import com.Projet.Projet.utilisateur.dto.LoginRequest;
 
@@ -18,6 +20,8 @@ public interface ServiceUtilisateur {
 
     ResponseEntity<?> registerUser(SignupRequest signUpRequest);
 
+    List<User> getUsersByRole(ERole roleName);
+
     ResponseEntity<String> activateAccount(String token);
 
     ResponseEntity<?> forgotPassword(String email);
@@ -26,9 +30,20 @@ public interface ServiceUtilisateur {
 
     ResponseEntity<?> updatePassword(String oldPassword, String newPassword);
 
-    ResponseEntity<?> updateUserProfile(@Valid @ModelAttribute User updateRequest, @RequestParam("photo") MultipartFile photo);
+//    ResponseEntity<?> completerUserProfile(User updateRequest);
+
+    Object updateUserProfile(User updateRequest);
+
+    MessageResponse Bannir(User user);
 
     List<Map<String, Object>> listeUtilisateur();
+    ResponseEntity<?> updateUserPhoto(User updateRequest, MultipartFile photo);
+    User saveUser(User user); // LA METHODE PERMETTANT D'AJOUTER UN UTILISATEUR
+    Role saveRole(Role role);  // LA METHODE PERMETTANT D'AJOUTER UN ROLE
 
-    Role saveRole(Role role);
+    User UserparId(Long id_user); // LA METHODE PERMETTANT D'AFFICHER UN UTILISATEUR EN FONCTION DE SON ID
+
+    void addRoleToUser(String numero, ERole roleName); // LA METHODE PERMETTANT D'AJOUTER UN ROLE A UN UTILISATEUR
+
+    Object AfficherInfoUserConnecter(); // LA METHODE PERMETTANT D'AFFICHER LES INFO DE USER CONNECTE
 }

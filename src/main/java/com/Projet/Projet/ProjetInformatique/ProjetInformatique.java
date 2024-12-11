@@ -2,6 +2,7 @@ package com.Projet.Projet.ProjetInformatique;
 
 import com.Projet.Projet.ProjetInformatique.TypeProjet.TypeProjet;
 import com.Projet.Projet.utilisateur.User.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,6 +36,7 @@ public class ProjetInformatique {
 
     private String photo;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_utilisateur")
     private User user;
@@ -42,5 +44,6 @@ public class ProjetInformatique {
     @ManyToOne
     @JoinColumn(name = "id_typeprojet")
     private TypeProjet typeProjet;
+
 
 }

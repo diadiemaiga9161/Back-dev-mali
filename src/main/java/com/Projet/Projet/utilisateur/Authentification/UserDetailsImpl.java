@@ -1,5 +1,6 @@
 package com.Projet.Projet.Authentification;
 
+import com.Projet.Projet.utilisateur.Specialite.Specialite;
 import com.Projet.Projet.utilisateur.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -23,6 +24,8 @@ public class UserDetailsImpl implements UserDetails {
 
     @Getter
     private Boolean statut;
+
+    private Specialite specialite;
 
     @JsonIgnore
     private Boolean profilcompleter;
@@ -50,10 +53,10 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    private List<String> specialites; // Ajout de la liste de spécialités
+//    private List<String> specialites; // Ajout de la liste de spécialités
 
     public UserDetailsImpl(Long id, String telephone, String email, String password, String nom, String prenom, String adresse,
-                           String genre, Boolean profilcompleter, Boolean etat, Boolean statut, Collection<? extends GrantedAuthority> authorities) {
+                           String genre, Specialite specialite, Boolean profilcompleter, Boolean etat, Boolean statut, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.telephone = telephone;
         this.email = email;
@@ -62,6 +65,7 @@ public class UserDetailsImpl implements UserDetails {
         this.prenom = prenom;
         this.adresse = adresse;
         this.genre = genre;
+        this.specialite = specialite;
         this.profilcompleter = profilcompleter;
         this.etat = etat;
         this.statut = statut;
@@ -86,6 +90,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getPrenom(),
                 user.getAdresse(),
                 user.getGenre(),
+                user.getSpecialite(),
                 user.getProfilcompleter(),
                 user.getEtat(),
                 user.getStatut(),
@@ -99,16 +104,24 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
-    public List<String> getSpecialites() {
-        return specialites;
-    }
+//    public List<String> getSpecialites() {
+//        return specialites;
+//    }
 
     public void setStatut(Boolean statut) {
         this.statut = statut;
     }
 
-    public void setSpecialites(List<String> specialites) {
-        this.specialites = specialites;
+//    public void setSpecialites(List<String> specialites) {
+//        this.specialites = specialites;
+//    }
+
+    public Specialite getSpecialite() {
+        return specialite;
+    }
+
+    public void setSpecialite(Specialite specialite) {
+        this.specialite = specialite;
     }
 
     public Long getId() {

@@ -1,6 +1,8 @@
 package com.Projet.Projet.utilisateur.dto;
 
 
+import com.Projet.Projet.utilisateur.Specialite.Specialite;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -24,6 +26,10 @@ public class SignupRequest {
     @Size(max = 50)
     @Email
     private String email;
+
+
+    private Specialite specialite;
+
 
     private Set<String> role;
 
@@ -103,5 +109,13 @@ public class SignupRequest {
 
     public void setRole(Set<String> role) {
         this.role = role;
+    }
+
+    public Specialite getSpecialite() {
+        return specialite;
+    }
+
+    public void setSpecialite(Specialite specialite) {
+        this.specialite = specialite;
     }
 }

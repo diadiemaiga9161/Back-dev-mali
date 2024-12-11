@@ -39,8 +39,8 @@ public class TypeProjetImple implements TypeProjetService{
 
     @Override
     public Object Ajouter(TypeProjet typeProjet) {
-        TypeProjet typeBanque1 = typeProjetRepository.findByTypeprojet(typeProjet.getTypeprojet());
-        if (typeBanque1==null){
+        TypeProjet typeProjet1 = typeProjetRepository.findByTypeprojet(typeProjet.getTypeprojet());
+        if (typeProjet1==null){
             typeProjetRepository.save(typeProjet);
             return new MessageResponse("Type ajoute avec succes", true);
         }else {

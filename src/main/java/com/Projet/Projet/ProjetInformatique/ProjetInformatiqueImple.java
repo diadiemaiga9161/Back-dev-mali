@@ -13,9 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProjetInformatiqueImple implements ProjetInformatiqueService{
@@ -49,6 +47,37 @@ public class ProjetInformatiqueImple implements ProjetInformatiqueService{
     }
 
     @Override
+    public List<ProjetInformatique> getProjetsByUser(User user) {
+        return List.of();
+    }
+
+    @Override
+    public List<java.util.Map<String, Object>> getProjetInformatiquelByUser() {
+        // Obtenir l'utilisateur connecté à partir de l'objet Authentication
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        // Obtenir l'utilisateur à partir de la base de données en fonction de l'username
+        Optional<User> userOptional = userRepository.findByEmail(currentUsername);
+        List<ProjetInformatique> projetInformatiques = projetInformatiqueRepository.findByUser(userOptional.get());
+        List<java.util.Map<String, Object>> result = new ArrayList<>();
+
+        for (ProjetInformatique projetInformatique : projetInformatiques) {
+            java.util.Map<String, Object> projetInformatiqueMap = new HashMap<>();
+//            projetInformatiqueMap.put("id", projetInformatiques.getId());
+            projetInformatiqueMap.put("datecreation", projetInformatique.getDatecreation());
+            projetInformatiqueMap.put("titre", projetInformatique.getTitre());
+            projetInformatiqueMap.put("description", projetInformatique.getDescription());
+            projetInformatiqueMap.put("photo", projetInformatique.getPhoto());
+            projetInformatiqueMap.put("typeProjet", projetInformatique.getTypeProjet());
+            // Ajoutez d'autres champs si nécessaire
+
+            result.add(projetInformatiqueMap);
+        }
+
+        return result;
+    }
+
+    @Override
     public Object Ajouter(String titre, String description, TypeProjet typeProjet, MultipartFile photo) {
         // Obtenir l'utilisateur connecté à partir de l'objet Authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -74,6 +103,7 @@ public class ProjetInformatiqueImple implements ProjetInformatiqueService{
         }else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Utilisateur non trouvé", false));
         }
+
     }
 
     @Override

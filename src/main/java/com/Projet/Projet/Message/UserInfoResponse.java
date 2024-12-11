@@ -2,6 +2,7 @@ package com.Projet.Projet.Message;
 
 
 import com.Projet.Projet.Permission.UserRolePermission;
+import com.Projet.Projet.utilisateur.Specialite.Specialite;
 import com.Projet.Projet.utilisateur.UtilisateurPhoto.UtilisateurPhoto;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,17 +40,18 @@ public class UserInfoResponse {
     private String token;
 
     private List<String> roles;
-    private List<String> specialite;
-
+//    private List<String> specialite;
+    private Specialite specialite;
     private List<UtilisateurPhoto> photos; // Liste de photos
     private List<UserRolePermission> userRolePermissions; // Liste de photos
 
 
-    public UserInfoResponse(Long id, String telephone, String email, String nom, String prenom, String genre, String adresse, Date date, List<String> roles, String accessToken) {
+    public UserInfoResponse(Long id, String telephone, String email, String nom, String prenom, String genre, Specialite specialite, String adresse, Date date, List<String> roles, String accessToken) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.telephone = telephone;
+        this.specialite = specialite;
         this.genre = genre;
         this.adresse = adresse;
         this.date = date;
@@ -153,9 +155,6 @@ public class UserInfoResponse {
         return roles;
     }
 
-    public List<String> getSpecialite() {
-        return specialite;
-    }
 
     public List<UtilisateurPhoto> getPhotos() {
         return photos;
@@ -166,6 +165,14 @@ public class UserInfoResponse {
     }
     public void setUserRolePermissions(List<UserRolePermission> userRolePermissions) {
         this.userRolePermissions = userRolePermissions;
+    }
+
+    public Specialite getSpecialite() {
+        return specialite;
+    }
+
+    public void setSpecialite(Specialite specialite) {
+        this.specialite = specialite;
     }
 
     public List<UserRolePermission> getUserRolePermissions() {

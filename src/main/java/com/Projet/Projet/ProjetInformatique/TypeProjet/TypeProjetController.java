@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8100"}, maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:49775"}, maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("api/typeprojet")
 public class TypeProjetController {
     @Autowired
     private TypeProjetService typeProjetService;
 
-    //AJOUTER UN TYPE
-    @PreAuthorize("hasRole('ADMIN')")
+    //AJOUTER UN TYPE    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/ajouter")
     public Object Ajouter(@RequestBody TypeProjet TypeProjet){
+        System.out.println(TypeProjet.getId());
         return typeProjetService.Ajouter(TypeProjet);
     }
 
@@ -35,7 +35,6 @@ public class TypeProjetController {
         typeProjetService.Modifier(TypeProjet);
         return new MessageResponse("Type Modifie avec succes", true);
     }
-
 
     //SUPPRIMER UN TYPE
     @PreAuthorize("hasRole('ADMIN')")
