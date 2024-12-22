@@ -1,10 +1,13 @@
 package com.Projet.Projet.utilisateur.Commentaires_user;
 
 import com.Projet.Projet.Message.MessageResponse;
+import com.Projet.Projet.RendezVous.RendezVous;
+import com.Projet.Projet.utilisateur.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:49775"}, maxAge = 3600, allowCredentials="true")
@@ -17,9 +20,14 @@ public class CommentairesController {
 
     //AJOUTER UNE COMMENTAIRES
 //    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping("/ajouter")
+//    public Object Ajouter(@RequestBody Commentaire commentaire){
+//        return commentairesService.Ajouter(commentaire);
+//    }
     @PostMapping("/ajouter")
-    public Object Ajouter(@RequestBody Commentaire commentaire){
-        return commentairesService.Ajouter(commentaire);
+    public Object Ajouter(@Valid @ModelAttribute Commentaire commentaire,
+                          @RequestParam("userRecu") User user){
+        return commentairesService.Ajouter(commentaire,user);// LA METHODE PERMETTANT D'AJOUTER UN Commentaire en fonction du profil choix et de l'utulisateur connecter
     }
 
     //AFFICHER LES COMMENTAIRES

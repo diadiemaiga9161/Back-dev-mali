@@ -4,13 +4,10 @@ package com.Projet.Projet.utilisateur.User;
 import com.Projet.Projet.Connaissances.Connaissances;
 import com.Projet.Projet.ExperienceProfessionnelle.ExperienceProfessionnelle;
 import com.Projet.Projet.ProjetInformatique.ProjetInformatique;
-import com.Projet.Projet.ProjetInformatique.TypeProjet.TypeProjet;
-import com.Projet.Projet.RendezVous.TypeRdv.TypeRdv;
+import com.Projet.Projet.utilisateur.Commentaires_user.Commentaire;
 import com.Projet.Projet.utilisateur.Role.Role;
 import com.Projet.Projet.utilisateur.Specialite.Specialite;
 import com.Projet.Projet.utilisateur.UtilisateurPhoto.UtilisateurPhoto;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -41,6 +38,9 @@ public class User {
     private String telephone;
 
     private Boolean etat ;
+
+    private Boolean verfication ;
+
     @Size(max=150)
     private String adresse;
     private Date date = new Date();
@@ -76,6 +76,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<ExperienceProfessionnelle> experienceProfessionnelles;
+
+//    @OneToMany(mappedBy = "user")
+//    private Set<Commentaire> commentaires;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_connaissance",
@@ -161,6 +164,14 @@ public class User {
 
     public String getGenre() {
         return genre;
+    }
+
+    public Boolean getVerfication() {
+        return verfication;
+    }
+
+    public void setVerfication(Boolean verfication) {
+        this.verfication = verfication;
     }
 
     public void setEtat(Boolean etat) {

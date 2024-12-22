@@ -1,7 +1,6 @@
 package com.Projet.Projet.utilisateur.Commentaires_user;
 
-import com.Projet.Projet.Connaissances.Connaissances;
-import com.Projet.Projet.ExperienceProfessionnelle.ExperienceProfessionnelle;
+
 import com.Projet.Projet.Message.MessageResponse;
 import com.Projet.Projet.utilisateur.User.User;
 import com.Projet.Projet.utilisateur.User.UserRepository;
@@ -12,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,20 +46,39 @@ public class CommentairesImple implements CommentairesService {
     }
 
     @Override
-    public Object Ajouter(Commentaire commentaire) {
+    public Object Ajouter(Commentaire commentaire, User idUser) {
         // Obtenir l'utilisateur connecté à partir de l'objet Authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
+//        System.out.println(currentUsername);
         // Obtenir l'utilisateur à partir de la base de données en fonction de l'username
         Optional<User> userOptional = userRepository.findByEmail(currentUsername);
         if (userOptional.isPresent()) {
-            commentaire.setUser(userOptional.get());
+            commentaire.setUserEvoyer(userOptional.get());
+            commentaire.setUser(idUser);
+            // Récupérer le type correspondant
             commentaireRepository.save(commentaire);
-            return new MessageResponse("Ajouter avec succes", true);
+            return new MessageResponse("Commentaire ajoute avec succes", true);
         }else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Experience non trouvé", false));
-        }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Utilisateur non trouvé", false));
+        } // LA METHODE PERMETTANT D'AJOUTER UN Commentaire en fonction du profil choix et de l'utulisateur connecter
     }
+//    public Object Ajouter(Commentaire commentaire) {
+//        // Obtenir l'utilisateur connecté à partir de l'objet Authentication
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentUsername = authentication.getName();
+//        // Obtenir l'utilisateur à partir de la base de données en fonction de l'username
+//        Optional<User> userOptional = userRepository.findByEmail(currentUsername);
+//        if (userOptional.isPresent()) {
+//            commentaire.setUser(userOptional.get());
+//            commentaireRepository.save(commentaire);
+//            return new MessageResponse("Ajouter avec succes", true);
+//        }else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Commentaire non trouvé", false));
+//        }
+//    }
+
+
     @Override
     public Commentaire AfficherParId(Long id) {
         return commentaireRepository.findById(id).get();

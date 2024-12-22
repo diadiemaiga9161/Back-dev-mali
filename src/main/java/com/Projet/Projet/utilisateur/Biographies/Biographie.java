@@ -1,4 +1,4 @@
-package com.Projet.Projet.utilisateur.Commentaires_user;
+package com.Projet.Projet.utilisateur.Biographies;
 
 import com.Projet.Projet.utilisateur.User.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -13,10 +13,10 @@ import javax.validation.constraints.Size;
 @Entity
 @Getter
 @Setter
-@Table(name = "commentaire")
+@Table(name = "biographie")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Commentaire {
+public class Biographie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +24,11 @@ public class Commentaire {
 
 
     @Size(max = 500)
-    private String commentaires;
-
+    private String biographie;
 
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "id_utilisateur")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "id_userenvoie")
-    private User userEvoyer;
 }
