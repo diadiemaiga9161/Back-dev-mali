@@ -78,7 +78,10 @@ public class User {
     private Set<ExperienceProfessionnelle> experienceProfessionnelles;
 
 //    @OneToMany(mappedBy = "user")
-//    private Set<Commentaire> commentaires;
+//    private Set<Commentaire>commentaires;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Commentaire> commentaires;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_connaissance",

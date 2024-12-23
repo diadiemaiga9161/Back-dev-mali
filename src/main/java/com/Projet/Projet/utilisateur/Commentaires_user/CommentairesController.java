@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:49775"}, maxAge = 3600, allowCredentials="true")
 @RestController
@@ -28,6 +29,11 @@ public class CommentairesController {
     public Object Ajouter(@Valid @ModelAttribute Commentaire commentaire,
                           @RequestParam("userRecu") User user){
         return commentairesService.Ajouter(commentaire,user);// LA METHODE PERMETTANT D'AJOUTER UN Commentaire en fonction du profil choix et de l'utulisateur connecter
+    }
+
+    @GetMapping("/voir")
+    public  List<Map<String, Object>> voir(){
+        return commentairesService.getCommentaireByUser();
     }
 
     //AFFICHER LES COMMENTAIRES
