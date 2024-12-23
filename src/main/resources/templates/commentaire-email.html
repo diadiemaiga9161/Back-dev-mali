@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nouveau Commentaire</title>
+</head>
+<body>
+<h2>Bonjour, <span th:text="${nomRecepteur}">Utilisateur</span></h2>
+<p>Vous avez reçu un nouveau commentaire de la part de <strong th:text="${nomEnvoyeur}">Envoyeur</strong> :</p>
+<blockquote th:text="${contenuCommentaire}">Contenu du commentaire</blockquote>
+<p>Merci,</p>
+<p>L'équipe DevMaliConnect .</p>
+</body>
+</html>

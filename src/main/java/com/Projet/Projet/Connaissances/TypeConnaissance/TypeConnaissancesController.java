@@ -6,7 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:49775"}, maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:63592"}, maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("api/typeconnaissance")
 public class TypeConnaissancesController {

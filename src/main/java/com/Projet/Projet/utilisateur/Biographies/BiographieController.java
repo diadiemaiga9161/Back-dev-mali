@@ -1,17 +1,10 @@
 package com.Projet.Projet.utilisateur.Biographies;
 
 
-import com.Projet.Projet.ExperienceProfessionnelle.ExperienceProfessionnelle;
-import com.Projet.Projet.ExperienceProfessionnelle.ExperienceProfessionnelleService;
 import com.Projet.Projet.Message.MessageResponse;
-import com.Projet.Projet.utilisateur.Commentaires_user.Commentaire;
-import com.Projet.Projet.utilisateur.Commentaires_user.CommentairesService;
-import com.Projet.Projet.utilisateur.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;

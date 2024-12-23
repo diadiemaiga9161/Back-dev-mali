@@ -27,7 +27,7 @@ public class Biographie {
     private String biographie;
 
     @JsonBackReference
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_utilisateur")
     private User user;
 

@@ -4,8 +4,6 @@ package com.Projet.Projet.utilisateur.User;
 import com.Projet.Projet.Message.MessageResponse;
 import com.Projet.Projet.utilisateur.Role.ERole;
 import org.springframework.http.ResponseEntity;
-
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:49775"}, maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:63592"}, maxAge = 3600, allowCredentials="true")
 
 @RestController
 @RequestMapping("/api/gflotte/user-permissions")

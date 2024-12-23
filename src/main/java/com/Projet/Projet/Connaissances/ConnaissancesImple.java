@@ -53,7 +53,7 @@ public class ConnaissancesImple implements ConnaissancesService {
             Map<String, Object> connaissancesMap = new HashMap<>();
             connaissancesMap.put("id", connaissance.getId());
             connaissancesMap.put("nom", connaissance.getNom());
-            connaissancesMap.put("type", connaissance.getType());
+//            connaissancesMap.put("type", connaissance.getType());
             connaissancesMap.put("typeConnaissances", connaissance.getTypeConnaissances());
             // Ajoutez d'autres champs si nécessaire
 

@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:49775"}, maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:63592"}, maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("api/connaissance")
 public class ConnaissancesController {
@@ -22,10 +22,16 @@ public class ConnaissancesController {
         return connaissancesService.getConnaissanceslByUser();
     }
 
-    @GetMapping("/voir")
-    public List<Connaissances> voir(){
-        return connaissancesService.Afficher();
+
+    @GetMapping("/voirs")
+    public  List<Map<String, Object>> voir(){
+        return connaissancesService.getConnaissanceslByUser();
     }
+
+//    @GetMapping("/voir")
+//    public List<Connaissances> voir(){
+//        return connaissancesService.Afficher();
+//    }
     //AJOUTER Une connaissance
     //    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/ajouter")

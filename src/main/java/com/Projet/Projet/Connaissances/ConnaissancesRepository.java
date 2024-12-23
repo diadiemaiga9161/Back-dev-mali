@@ -8,4 +8,5 @@ import java.util.List;
 public interface ConnaissancesRepository extends JpaRepository<Connaissances, Long> {
     List<Connaissances> findByUser(User user);
 
+
 }

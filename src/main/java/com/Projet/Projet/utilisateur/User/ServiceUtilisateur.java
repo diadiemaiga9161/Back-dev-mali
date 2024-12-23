@@ -4,14 +4,10 @@ import com.Projet.Projet.Message.MessageResponse;
 import com.Projet.Projet.utilisateur.Role.ERole;
 import com.Projet.Projet.utilisateur.Role.Role;
 import com.Projet.Projet.utilisateur.dto.LoginRequest;
-
 import com.Projet.Projet.utilisateur.dto.SignupRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 

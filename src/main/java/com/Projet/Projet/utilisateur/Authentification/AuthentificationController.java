@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 //@CrossOrigin(origins = "*", maxAge = 3600)
 //for Angular Client (withCredentials)
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:49775"}, maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:63592"}, maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthentificationController {

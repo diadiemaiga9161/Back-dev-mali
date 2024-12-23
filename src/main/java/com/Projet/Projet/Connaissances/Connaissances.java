@@ -27,7 +27,7 @@ public class Connaissances {
 
     private String nom;
 
-    private String  type;
+//    private String  type;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "connaissances")

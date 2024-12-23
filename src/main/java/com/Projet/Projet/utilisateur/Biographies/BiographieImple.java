@@ -33,7 +33,7 @@ public class BiographieImple  implements  BiographieService{
                 .map(p->{
                     p.setBiographie(biographie.getBiographie());
                     return biographieRepository.save(p);
-                }).orElseThrow(() -> new RuntimeException("Commentaire non trouvé !"));
+                }).orElseThrow(() -> new RuntimeException("Biographie non trouvé !"));
     }
 
     @Override
@@ -76,7 +76,7 @@ public class BiographieImple  implements  BiographieService{
             biographieRepository.save(biographie);
             return new MessageResponse("Ajouter avec succes", true);
         }else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Experience non trouvé", false));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Biographie non trouvé", false));
         }
     }
 

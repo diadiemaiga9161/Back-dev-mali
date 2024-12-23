@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:49775"}, maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:62165"}, maxAge = 3600, allowCredentials="true")
 @RestController
 @RequestMapping("api/amadou")
 public class ExperienceProfessionnelleController {
