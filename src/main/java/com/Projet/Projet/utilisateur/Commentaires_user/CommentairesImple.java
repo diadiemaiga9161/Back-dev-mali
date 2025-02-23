@@ -1,7 +1,9 @@
 package com.Projet.Projet.utilisateur.Commentaires_user;
 
 
+import com.Projet.Projet.ExperienceProfessionnelle.ExperienceProfessionnelle;
 import com.Projet.Projet.Message.MessageResponse;
+import com.Projet.Projet.RendezVous.RendezVous;
 import com.Projet.Projet.utilisateur.User.User;
 import com.Projet.Projet.utilisateur.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

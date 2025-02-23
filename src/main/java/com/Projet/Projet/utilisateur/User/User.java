@@ -4,7 +4,6 @@ package com.Projet.Projet.utilisateur.User;
 import com.Projet.Projet.Connaissances.Connaissances;
 import com.Projet.Projet.ExperienceProfessionnelle.ExperienceProfessionnelle;
 import com.Projet.Projet.ProjetInformatique.ProjetInformatique;
-import com.Projet.Projet.utilisateur.Biographies.Biographie;
 import com.Projet.Projet.utilisateur.Commentaires_user.Commentaire;
 import com.Projet.Projet.utilisateur.Role.Role;
 import com.Projet.Projet.utilisateur.Specialite.Specialite;
@@ -78,11 +77,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<ExperienceProfessionnelle> experienceProfessionnelles;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Biographie>biographies;
-
-    @ManyToMany(mappedBy = "user")
-    private Set<Commentaire> commentaires;
+//    @OneToMany(mappedBy = "user")
+//    private Set<Commentaire> commentaires;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(  name = "user_connaissance",
